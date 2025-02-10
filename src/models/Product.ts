@@ -1,5 +1,5 @@
-import { DataTypes, Model } from "sequelize"
-import { sequelize } from "../database/Sequelize"
+import {DataTypes, Model} from 'sequelize'
+import {sequelize} from '../database/Sequelize'
 
 export interface ProductAttributes {
     id: number
@@ -8,9 +8,13 @@ export interface ProductAttributes {
     stock: number
 }
 
-export interface ProductCreatiionAttributes extends Omit<ProductAttributes, 'id'> {}
+export interface ProductCreatiionAttributes
+    extends Omit<ProductAttributes, 'id'> {}
 
-export class Product extends Model<ProductAttributes, ProductCreatiionAttributes>{
+export class Product extends Model<
+    ProductAttributes,
+    ProductCreatiionAttributes
+> {
     id!: number
     name!: string
     price!: number
@@ -22,23 +26,23 @@ Product.init(
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
-            autoIncrement: true
+            autoIncrement: true,
         },
         name: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: false,
         },
         price: {
             type: DataTypes.DECIMAL,
-            allowNull: false
+            allowNull: false,
         },
         stock: {
             type: DataTypes.INTEGER,
-            allowNull: false
-        }
+            allowNull: false,
+        },
     },
     {
         sequelize,
-        tableName: 'products'
-    }
+        tableName: 'products',
+    },
 )

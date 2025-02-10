@@ -1,8 +1,8 @@
-import { productService } from "../services/ProductService";
+import {Product} from '../models/Product'
+import {productService} from '../services/ProductService'
 import {Request, Response} from 'express'
 
 class ProductController {
-
     async getAll(req: Request, res: Response): Promise<void> {
         try {
             const products = await productService.getAllProducts()
@@ -15,7 +15,7 @@ class ProductController {
     async getById(req: Request, res: Response): Promise<void> {
         try {
             const product = await productService.getProductById(+req.params.id)
-            if(!product){
+            if (!product) {
                 res.status(404).send('Product not found')
             }
             res.status(200).json(product)
@@ -25,19 +25,26 @@ class ProductController {
     }
 
     async create(req: Request, res: Response): Promise<void> {
-        if(!req.body) {
+        if (!req.body) {
             res.status(400).send('Body cannot be empty')
         }
         try {
-            await productService.createProduct(req.body)
-            res.status(201).send('Product added sucessfully')
+            const product: Product = await productService.createProduct(
+                req.body,
+            )
+            res.status(201).json({
+                id: product.id,
+                name: product.name,
+                price: product.price,
+                stock: product.stock,
+            })
         } catch (error) {
             res.status(500).send('Error creating product')
         }
     }
 
     async update(req: Request, res: Response): Promise<void> {
-        if(!req.body){
+        if (!req.body) {
             res.status(400).send('Body cannot be empty')
         }
         try {

@@ -1,8 +1,7 @@
-import { Product, ProductCreatiionAttributes } from "../models/Product";
-import { productRepository } from "../repositories/ProductRepository";
+import {Product, ProductCreatiionAttributes} from '../models/Product'
+import {productRepository} from '../repositories/ProductRepository'
 
 class ProductService {
-    
     async getAllProducts(): Promise<Product[]> {
         return await productRepository.getAll()
     }
@@ -15,7 +14,10 @@ class ProductService {
         return await productRepository.create(product)
     }
 
-    async updateProduct(id: number, product: ProductCreatiionAttributes): Promise<Product | null> {
+    async updateProduct(
+        id: number,
+        product: ProductCreatiionAttributes,
+    ): Promise<Product | null> {
         return await productRepository.update(id, product)
     }
 
