@@ -44,7 +44,7 @@ class ProductController {
     }
 
     async update(req: Request, res: Response): Promise<void> {
-        if (!req.body) {
+        if (req.body = {}) {
             res.status(400).send('Body cannot be empty')
         }
         try {
