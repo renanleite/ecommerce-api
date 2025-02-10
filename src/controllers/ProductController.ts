@@ -49,7 +49,7 @@ class ProductController {
         }
         try {
             await productService.updateProduct(+req.params.id, req.body)
-            res.status(204)
+            res.status(204).send()
         } catch (error) {
             res.status(500).send('Error updating product')
         }

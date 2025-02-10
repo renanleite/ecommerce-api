@@ -17,7 +17,7 @@ class ProductService {
     async updateProduct(
         id: number,
         product: ProductCreatiionAttributes,
-    ): Promise<Product | null> {
+    ): Promise<void> {
         return await productRepository.update(id, product)
     }
 

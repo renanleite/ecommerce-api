@@ -16,12 +16,8 @@ class ProductRepository {
     async update(
         id: number,
         updatedData: Partial<ProductCreatiionAttributes>,
-    ): Promise<Product | null> {
-        const [affectedCount] = await Product.update(updatedData, {where: {id}})
-        if (affectedCount === 0) {
-            return null
-        }
-        return this.getById(id)
+    ): Promise<void> {
+        await Product.update(updatedData, {where: {id}})
     }
 
     async deleteById(id: number): Promise<number> {
