@@ -1,23 +1,26 @@
 // models/CartItem.ts
-import { DataTypes, Model } from 'sequelize';
-import { sequelize } from '../database/Sequelize';
-import { Cart } from './Cart'; 
-import { Product } from './Product'; 
+import {DataTypes, Model} from 'sequelize'
+import {sequelize} from '../database/Sequelize'
+import {Cart} from './Cart'
+import {Product} from './Product'
 
 export interface CartItemAttributes {
-    id: number;
-    cartId: number;
-    productId: number;
-    quantity: number;
+    id: number
+    cartId: number
+    productId: number
+    quantity: number
 }
 
 export interface CartItemCreationAttributes
     extends Omit<CartItemAttributes, 'id'> {}
 
-export class CartItem extends Model<CartItemAttributes, CartItemCreationAttributes> {
-    cartId!: number;
-    productId!: number;
-    quantity!: number;
+export class CartItem extends Model<
+    CartItemAttributes,
+    CartItemCreationAttributes
+> {
+    cartId!: number
+    productId!: number
+    quantity!: number
 }
 
 CartItem.init(
@@ -31,7 +34,7 @@ CartItem.init(
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
-                model: 'carts', 
+                model: 'carts',
                 key: 'id',
             },
         },
@@ -39,7 +42,7 @@ CartItem.init(
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
-                model: 'products', 
+                model: 'products',
                 key: 'id',
             },
         },
@@ -52,8 +55,8 @@ CartItem.init(
     {
         sequelize,
         tableName: 'cart_items',
-    }
-);
+    },
+)
 
-CartItem.belongsTo(Cart, { foreignKey: 'cartId' });
-CartItem.belongsTo(Product, { foreignKey: 'productId' });
+CartItem.belongsTo(Cart, {foreignKey: 'cartId'})
+CartItem.belongsTo(Product, {foreignKey: 'productId'})
