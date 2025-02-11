@@ -1,23 +1,45 @@
-import { Product } from "./Product";
+import {DataTypes, Model} from 'sequelize'
+import {sequelize} from '../database/Sequelize'
+import {Customer} from './Customer'
 
-export class Cart {
+export interface CartAttributes {
     id: number
-    userId: number
-    items: Product[]
+    customerId: number
     totalPrice: number
-
-    addItem(product: Product) {
-        if(product.stock > 0) {
-            this.items.push(product)
-            product.stock--
-        }
-    }
-
-    removeItem(productId: number) {
-        const index = this.items.findIndex(item => item.id === productId)
-        if (index === -1) {
-            throw new Error("This product was not found in the cart")
-        }
-        this.items.splice(index, 1)
-    }
 }
+
+export interface CartCreationAttributes extends Omit<CartAttributes, 'id'> {}
+
+export class Cart extends Model<CartAttributes, CartCreationAttributes> {
+    customerId!: number
+    totalPrice!: number
+}
+
+Cart.init(
+    {
+        id: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true,
+        },
+        customerId: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            unique: true,
+            references: {
+                model: 'customers',
+                key: 'id',
+            },
+        },
+        totalPrice: {
+            type: DataTypes.DECIMAL(10, 2),
+            defaultValue: 0.0,
+        },
+    },
+    {
+        sequelize,
+        tableName: 'carts',
+    },
+)
+
+Cart.belongsTo(Customer, {foreignKey: 'customerId'})
