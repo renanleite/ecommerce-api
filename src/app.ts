@@ -1,12 +1,14 @@
 import express from 'express'
-import productRouter from './routes/productRoutes'
+import productRoutes from './routes/productRoutes'
 import {sequelize} from './database/Sequelize'
+import customerRoutes from './routes/customerRoutes'
 
 const app = express()
 const port = 3000
 
 app.use(express.json())
-app.use(productRouter)
+app.use(productRoutes)
+app.use(customerRoutes) 
 
 const startServer = async () => {
     try {

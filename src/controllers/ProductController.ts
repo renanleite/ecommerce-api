@@ -25,8 +25,9 @@ class ProductController {
     }
 
     async create(req: Request, res: Response): Promise<void> {
-        if (!req.body) {
+        if (Object.keys(req.body).length === 0) {
             res.status(400).send('Body cannot be empty')
+            return
         }
         try {
             const product: Product = await productService.createProduct(
@@ -44,8 +45,9 @@ class ProductController {
     }
 
     async update(req: Request, res: Response): Promise<void> {
-        if (req.body = {}) {
+        if (Object.keys(req.body).length === 0) {
             res.status(400).send('Body cannot be empty')
+            return
         }
         try {
             await productService.updateProduct(+req.params.id, req.body)
