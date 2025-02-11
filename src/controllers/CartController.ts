@@ -2,6 +2,8 @@
 import {Cart} from '../models/Cart'
 import {cartService} from '../services/CartService'
 import {Request, Response} from 'express'
+import {customerService} from '../services/CustomerService'
+import {isBodyEmpty} from '../utils/Validation'
 
 class CartController {
     async getAll(req: Request, res: Response): Promise<void> {
@@ -27,11 +29,17 @@ class CartController {
     }
 
     async create(req: Request, res: Response): Promise<void> {
-        if (Object.keys(req.body).length === 0) {
-            res.status(400).send('Body cannot be empty')
+        if (isBodyEmpty(req, res)) {
             return
         }
         try {
+            const customer = await customerService.getCustomerById(
+                +req.body.customerId,
+            )
+            if (!customer) {
+                res.status(404).send('This customer does not exist')
+                return
+            }
             const cart: Cart = await cartService.createCart(req.body)
             res.status(201).json(cart)
         } catch (error) {
@@ -40,8 +48,7 @@ class CartController {
     }
 
     async update(req: Request, res: Response): Promise<void> {
-        if (Object.keys(req.body).length === 0) {
-            res.status(400).send('Body cannot be empty')
+        if (isBodyEmpty(req, res)) {
             return
         }
         try {

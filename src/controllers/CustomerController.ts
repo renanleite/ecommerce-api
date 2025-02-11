@@ -1,6 +1,7 @@
 import {Customer} from '../models/Customer'
 import {customerService} from '../services/CustomerService'
 import {Request, Response} from 'express'
+import {isBodyEmpty} from '../utils/Validation'
 
 class CustomerController {
     async getAll(req: Request, res: Response): Promise<void> {
@@ -14,7 +15,9 @@ class CustomerController {
 
     async getById(req: Request, res: Response): Promise<void> {
         try {
-            const customer = await customerService.getCustomerById(+req.params.id)
+            const customer = await customerService.getCustomerById(
+                +req.params.id,
+            )
             if (!customer) {
                 res.status(404).send('Customer not found')
             }
@@ -25,8 +28,7 @@ class CustomerController {
     }
 
     async create(req: Request, res: Response): Promise<void> {
-        if (Object.keys(req.body).length === 0) {
-            res.status(400).send('Body cannot be empty')
+        if (isBodyEmpty(req, res)) {
             return
         }
         try {
@@ -44,8 +46,7 @@ class CustomerController {
     }
 
     async update(req: Request, res: Response): Promise<void> {
-        if (Object.keys(req.body).length === 0) {
-            res.status(400).send('Body cannot be empty')
+        if (isBodyEmpty(req, res)) {
             return
         }
         try {

@@ -1,6 +1,7 @@
 import {Product} from '../models/Product'
 import {productService} from '../services/ProductService'
 import {Request, Response} from 'express'
+import {isBodyEmpty} from '../utils/Validation'
 
 class ProductController {
     async getAll(req: Request, res: Response): Promise<void> {
@@ -25,8 +26,7 @@ class ProductController {
     }
 
     async create(req: Request, res: Response): Promise<void> {
-        if (Object.keys(req.body).length === 0) {
-            res.status(400).send('Body cannot be empty')
+        if (isBodyEmpty(req, res)) {
             return
         }
         try {
@@ -45,8 +45,7 @@ class ProductController {
     }
 
     async update(req: Request, res: Response): Promise<void> {
-        if (Object.keys(req.body).length === 0) {
-            res.status(400).send('Body cannot be empty')
+        if (isBodyEmpty(req, res)) {
             return
         }
         try {
