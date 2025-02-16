@@ -1,9 +1,8 @@
-// controllers/CartController.ts
 import {Cart} from '../models/Cart'
 import {cartService} from '../services/CartService'
 import {Request, Response} from 'express'
 import {customerService} from '../services/CustomerService'
-import {isBodyEmpty} from '../utils/Validation'
+import {isBodyEmpty, isBodyValid} from '../utils/Validation'
 
 class CartController {
     async getAll(req: Request, res: Response): Promise<void> {
@@ -29,7 +28,8 @@ class CartController {
     }
 
     async create(req: Request, res: Response): Promise<void> {
-        if (isBodyEmpty(req, res)) {
+        const requiredFields: string[] = ['customerId']
+        if (isBodyEmpty(req, res) || !isBodyValid(req, res, requiredFields)) {
             return
         }
         try {
