@@ -16,7 +16,7 @@ class AuthController {
                 return
             }
 
-            const hashedPassword = await hashPassword(password);
+            const hashedPassword = await hashPassword(password)
 
             const customer = await customerService.createCustomer({
                 name,

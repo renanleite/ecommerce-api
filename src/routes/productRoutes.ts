@@ -1,6 +1,5 @@
 import {Router} from 'express'
 import {productController} from '../controllers/ProductController'
-import { authenticate } from '../middlewares/AuthMiddleware'
 
 const productRoutes = Router()
 
