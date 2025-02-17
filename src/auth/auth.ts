@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
+import bcrypt from 'bcrypt'
 
 dotenv.config()
 
@@ -15,4 +16,16 @@ export function generateToken(payload: object): string {
 
 export function verifyToken(token: string) {
     return jwt.verify(token, JWT_SECRET!)
+}
+
+export async function comparePasswords(
+    plainPassword: string,
+    hashedPassword: string,
+): Promise<boolean> {
+    return bcrypt.compare(plainPassword, hashedPassword)
+}
+
+export async function hashPassword(password: string): Promise<string> {
+    const saltRounds = 10
+    return bcrypt.hash(password, saltRounds)
 }

@@ -1,10 +1,10 @@
 import {Request, Response} from 'express'
 import {customerService} from '../services/CustomerService'
-import {generateToken} from '../auth/auth'
+import {comparePasswords, generateToken, hashPassword} from '../auth/auth'
 
 class AuthController {
     async register(req: Request, res: Response): Promise<void> {
-        const {name, email} = req.body
+        const {name, email, password} = req.body
 
         try {
             const existingCustomer =
@@ -16,13 +16,16 @@ class AuthController {
                 return
             }
 
+            const hashedPassword = await hashPassword(password);
+
             const customer = await customerService.createCustomer({
-                email,
                 name,
+                email,
+                password: hashedPassword,
             })
 
             res.status(201).json({
-                message: 'User created',
+                message: 'Customer created',
                 customer,
             })
         } catch (error) {
@@ -31,12 +34,21 @@ class AuthController {
     }
 
     async login(req: Request, res: Response): Promise<void> {
-        const {email} = req.body
+        const {email, password} = req.body
 
         try {
             const customer = await customerService.getCustomerByEmail(email)
             if (!customer) {
                 res.status(400).json({message: 'Invalid email'})
+                return
+            }
+
+            const isPasswordValid = await comparePasswords(
+                password,
+                customer.password,
+            )
+            if (!isPasswordValid) {
+                res.status(400).json({message: 'Wrong password'})
                 return
             }
 

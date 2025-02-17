@@ -5,6 +5,7 @@ export interface CustomerAttributes {
     id: number
     name: string
     email: string
+    password: string
 }
 
 export interface CustomerCreationAttributes
@@ -17,6 +18,7 @@ export class Customer extends Model<
     id!: number
     name!: string
     email!: string
+    password!: string
 }
 
 Customer.init(
@@ -34,6 +36,10 @@ Customer.init(
             type: DataTypes.STRING,
             allowNull: false,
         },
+        password: {
+            type: DataTypes.STRING,
+            allowNull: false
+        }
     },
     {
         sequelize,
