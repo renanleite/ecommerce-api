@@ -10,6 +10,10 @@ class CustomerService {
         return await customerRepository.getById(id)
     }
 
+    async getCustomerByEmail(email: string): Promise<Customer | null> {
+        return await customerRepository.getByEmail(email)
+    }
+
     async createCustomer(body: CustomerCreationAttributes): Promise<Customer> {
         return await customerRepository.create(body)
     }

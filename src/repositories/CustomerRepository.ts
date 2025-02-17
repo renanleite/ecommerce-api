@@ -9,6 +9,10 @@ class CustomerRepository {
         return await Customer.findByPk(id)
     }
 
+    async getByEmail(email: string): Promise<Customer | null> {
+        return await Customer.findOne({where: {email: email}})
+    }
+
     async create(body: CustomerCreationAttributes): Promise<Customer> {
         return await Customer.create(body)
     }

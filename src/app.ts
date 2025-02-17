@@ -1,16 +1,25 @@
 import express from 'express'
-import productRoutes from './routes/productRoutes'
 import {sequelize} from './database/Sequelize'
+import dotenv from 'dotenv'
+import productRoutes from './routes/productRoutes'
 import customerRoutes from './routes/customerRoutes'
 import cartRoutes from './routes/cartRoutes'
+import authRoutes from './routes/authRoutes'
+import {authenticate} from './middlewares/AuthMiddleware'
 
 const app = express()
 const port = 3000
+dotenv.config()
 
 app.use(express.json())
-app.use(productRoutes)
-app.use(customerRoutes)
-app.use(cartRoutes)
+
+app.use(authRoutes)
+
+// Authenticated routes
+app.use(authenticate)
+app.use('/products', productRoutes)
+app.use('/customers', customerRoutes)
+app.use('/carts', cartRoutes)
 
 const startServer = async () => {
     try {

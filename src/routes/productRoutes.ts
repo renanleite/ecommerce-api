@@ -1,12 +1,13 @@
 import {Router} from 'express'
 import {productController} from '../controllers/ProductController'
+import { authenticate } from '../middlewares/AuthMiddleware'
 
 const productRoutes = Router()
 
-productRoutes.get('/products', productController.getAll)
-productRoutes.get('/products/:id', productController.getById)
-productRoutes.post('/products', productController.create)
-productRoutes.patch('/products/:id', productController.update)
-productRoutes.delete('/products/:id', productController.delete)
+productRoutes.get('', productController.getAll)
+productRoutes.get('/:id', productController.getById)
+productRoutes.post('', productController.create)
+productRoutes.patch('/:id', productController.update)
+productRoutes.delete('/:id', productController.delete)
 
 export default productRoutes

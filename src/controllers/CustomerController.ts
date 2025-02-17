@@ -27,24 +27,6 @@ class CustomerController {
         }
     }
 
-    async create(req: Request, res: Response): Promise<void> {
-        if (isBodyEmpty(req, res)) {
-            return
-        }
-        try {
-            const customer: Customer = await customerService.createCustomer(
-                req.body,
-            )
-            res.status(201).json({
-                id: customer.id,
-                name: customer.name,
-                email: customer.email,
-            })
-        } catch (error) {
-            res.status(500).send('Error creating customer')
-        }
-    }
-
     async update(req: Request, res: Response): Promise<void> {
         if (isBodyEmpty(req, res)) {
             return
