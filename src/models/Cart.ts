@@ -11,6 +11,7 @@ export interface CartAttributes {
 export interface CartCreationAttributes extends Omit<CartAttributes, 'id'> {}
 
 export class Cart extends Model<CartAttributes, CartCreationAttributes> {
+    id!: number
     customerId!: number
     totalPrice!: number
 }

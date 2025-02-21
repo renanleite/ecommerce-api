@@ -7,9 +7,7 @@ class CartRepository {
     }
 
     async getById(id: number): Promise<Cart | null> {
-        return await Cart.findByPk(id, {
-            include: [{model: CartItem, as: 'items'}],
-        })
+        return await Cart.findByPk(id)
     }
 
     async create(body: CartCreationAttributes): Promise<Cart> {
