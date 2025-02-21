@@ -1,10 +1,16 @@
 import {Request, Response} from 'express'
 import {customerService} from '../services/CustomerService'
 import {comparePasswords, generateToken, hashPassword} from '../auth/auth'
+import {isBodyEmpty, isBodyValid} from '../utils/Validation'
 
 class AuthController {
     async register(req: Request, res: Response): Promise<void> {
         const {name, email, password} = req.body
+
+        const requiredFields: string[] = ['name', 'email', 'password']
+        if (isBodyEmpty(req, res) || !isBodyValid(req, res, requiredFields)) {
+            return
+        }
 
         try {
             const existingCustomer =
